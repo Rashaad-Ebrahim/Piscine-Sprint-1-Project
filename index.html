@@ -23,31 +23,47 @@
 
       <!-- Agenda display  -->
 
+      <section id="agenda-section" hidden>
+        <h2>Upcoming Revisions</h2>
+        
+
+        <!-- No  agenda, hidden property to be added when not applicable -->
+        <p id="agenda-message">No agenda found for this user.</p>
+
+        <!-- When there is an agenda, hidden property to be added when not applicable -->
+        <ul id="agenda-list"></ul>
+      </section>
+
       <!-- Add topic form -->
 
       <section id="form-section">
         <h2>Add a New Topic</h2>
         <form id="topic-form">
-          <div>
-            <label for="topic-name">Topic Name:</label>
-            <input type="text" id="topic-name" name="topic-name" required />
-          </div>
-          <div>
-            <label for="revision-date">Start Date:</label>
-            <input
-              type="date"
-              id="revision-date"
-              name="revision-date"
-              required
-            />
-          </div>
-          <button type="submit">Add Topic</button>
+          <fieldset>
+            <legend>Details:</legend>
+            <div>
+              <label for="topic-name">Topic Name:</label>
+              <input type="text" id="topic-name" name="topic-name" required />
+            </div>
+            <br />
+            <div>
+              <label for="revision-date">Start Date:</label>
+              <input
+                type="date"
+                id="revision-date"
+                name="revision-date"
+                required
+              />
+            </div>
+            <br />
+            <button type="submit">Add Topic</button>
+          </fieldset>
         </form>
       </section>
     </main>
 
     <footer>
-      <p>© 2025 Spaced Repetition Tracker</p>
+      <p>R & R Develops - Spaced Repetition Tracker © 2025</p>
     </footer>
   </body>
 </html>
