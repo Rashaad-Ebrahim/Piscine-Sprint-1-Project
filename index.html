@@ -11,7 +11,40 @@
       <h1>Spaced Repetition Tracker</h1>
     </header>
 
-    <main></main>
+    <main>
+      <!-- Dropdown menu / user selection -->
+
+      <section>
+        <label for="user-select">Select a user:</label>
+        <select id="user-select">
+          <option value="">-- Select a user --</option>
+        </select>
+      </section>
+
+      <!-- Agenda display  -->
+
+      <!-- Add topic form -->
+
+      <section id="form-section">
+        <h2>Add a New Topic</h2>
+        <form id="topic-form">
+          <div>
+            <label for="topic-name">Topic Name:</label>
+            <input type="text" id="topic-name" name="topic-name" required />
+          </div>
+          <div>
+            <label for="revision-date">Start Date:</label>
+            <input
+              type="date"
+              id="revision-date"
+              name="revision-date"
+              required
+            />
+          </div>
+          <button type="submit">Add Topic</button>
+        </form>
+      </section>
+    </main>
 
     <footer>
       <p>© 2025 Spaced Repetition Tracker</p>
