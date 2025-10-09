@@ -1,4 +1,4 @@
-import { calculateRevisions } from "./script.mjs";
+import { calculateRevisions } from "./calculateRevisions.mjs";
 import assert from "node:assert";
 import test from "node:test";
 
