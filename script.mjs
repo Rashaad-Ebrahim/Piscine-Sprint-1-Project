@@ -5,8 +5,128 @@
 // You can't open the index.html file using a file:// URL.
 
 import { getUserIds } from "./common.mjs";
+import { getData, addData } from "./storage.mjs";
 
 window.onload = function () {
-  const users = getUserIds();
-  // document.querySelector("body").innerText = `There are ${users.length} users`;
+  populateUserDropdown();
+  setupForm();
+  document.getElementById("agenda-message").style.display = "none"; // This will hide "Agenda not found when page loads and no user is selected"
 };
+
+function populateUserDropdown() {
+  const userSelect = document.getElementById("user-select");
+  const users = getUserIds();
+  users.forEach(userId => {
+    const option = document.createElement("option");
+    option.value = userId;
+    option.textContent = `User ${userId}`;
+    userSelect.appendChild(option);
+  });
+
+  userSelect.addEventListener("change", handleUserSelection);
+}
+function handleUserSelection() {
+  const userId = document.getElementById("user-select").value;
+  if (!userId) return;
+
+  const agenda = getData(userId) || [];
+  displayAgenda(agenda);
+}
+
+function displayAgenda(agenda) {
+  const agendaSection = document.getElementById("agenda-section");
+  const agendaMessage = document.getElementById("agenda-message");
+  const agendaList = document.getElementById("agenda-list");
+
+  // Clear previous content
+  agendaList.innerHTML = "";
+
+  // Filter future dates and sort chronologically
+  const now = new Date();
+  const futureAgenda = agenda
+    .filter(item => new Date(item.date) > now)
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  if (futureAgenda.length === 0) {
+    agendaMessage.style.display = "block";
+    agendaList.style.display = "none";
+  } else {
+    agendaMessage.style.display = "none";
+    agendaList.style.display = "block";
+    futureAgenda.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = `${item.topic} - ${formatDate(item.date)}`;
+      agendaList.appendChild(li);
+    });
+  }
+}
+
+function setupForm() {
+  const form = document.getElementById("topic-form");
+  const dateInput = document.getElementById("revision-date");
+
+  // Set default date to today
+  const today = new Date().toISOString().split("T")[0];
+  dateInput.value = today;
+
+  form.addEventListener("submit", handleFormSubmit);
+}
+
+function handleFormSubmit(event) {
+  event.preventDefault();
+
+  const userId = document.getElementById("user-select").value;
+  if (!userId) {
+    alert("Please select a user first.");
+    return;
+  }
+
+  const topicName = document.getElementById("topic-name").value.trim();
+  const startDateStr = document.getElementById("revision-date").value;
+
+  if (!topicName || !startDateStr) {
+    alert("Please fill in both topic name and date.");
+    return;
+  }
+
+  const startDate = new Date(startDateStr + "T00:00:00Z"); // UTC midnight
+  const revisions = calculateRevisions(startDate, topicName);
+
+  addData(userId, revisions);
+  displayAgenda(getData(userId) || []);
+
+  // Reset form
+  document.getElementById("topic-name").value = "";
+  document.getElementById("revision-date").value = new Date().toISOString().split("T")[0];
+}
+
+function calculateRevisions(startDate, topic) {
+  const revisions = [];
+  const intervals = [
+    { days: 7 }, // 1 week from now
+    { days: 30 }, // 1 month from now
+    { months: 1 }, // 1 month from now
+    { months: 3 }, // 3 months from now
+    { months: 6 }, // 6 months from now
+    { years: 1 }  // 1 year from now
+  ];
+
+  intervals.forEach(interval => {
+    const revisionDate = new Date(startDate);
+    if (interval.days) {
+      revisionDate.setUTCDate(revisionDate.getUTCDate() + interval.days);
+    } else if (interval.months) {
+      revisionDate.setUTCMonth(revisionDate.getUTCMonth() + interval.months);
+    } else if (interval.years) {
+      revisionDate.setUTCFullYear(revisionDate.getUTCFullYear() + interval.years);
+    }
+    revisions.push({ topic, date: revisionDate.toISOString().split("T")[0] });
+  });
+
+  return revisions;
+}
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString(); // Format according to user's locale
+}
