@@ -82,7 +82,6 @@ function displayAgenda(agenda) {
   } else {
     // agendaMessage.style.display = "none";
     // agendaList.style.display = "block";
-    console.log(futureAgenda);
     agendaMessage.hidden = true;
     agendaList.hidden = false;
 
