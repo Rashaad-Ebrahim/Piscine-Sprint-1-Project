@@ -124,7 +124,7 @@ function handleFormSubmit(event) {
   dateInput.value = new Date().toISOString().split("T")[0];
 }
 
-function calculateRevisions(startDate, topic) {
+export function calculateRevisions(startDate, topic) {
   const revisions = [];
   const intervals = [
     { days: 7 }, // 1 week from now
