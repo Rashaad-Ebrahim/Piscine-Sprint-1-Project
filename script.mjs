@@ -7,6 +7,7 @@
 import { getUserIds } from "./common.mjs";
 import { getData, addData } from "./storage.mjs";
 import { calculateRevisions } from "./calculateRevisions.mjs";
+import { formatDate } from "./formatDate.mjs";
 
 // Global DOM elements
 const agendaSection = document.getElementById("agenda-section");
@@ -37,6 +38,7 @@ function populateUserDropdown() {
 
   userSelect.addEventListener("change", handleUserSelection);
 }
+
 function handleUserSelection() {
   const userId = userSelect.value;
   if (!userId) {
@@ -123,9 +125,4 @@ function handleFormSubmit(event) {
   // Reset form
   document.getElementById("topic-name").value = "";
   dateInput.value = new Date().toISOString().split("T")[0];
-}
-
-function formatDate(dateStr) {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString(); // Format according to user's local time
 }
