@@ -7,7 +7,7 @@
 import { getUserIds } from "./common.mjs";
 import { getData, addData } from "./storage.mjs";
 
-// DOM elements
+// Global DOM elements
 const agendaSection = document.getElementById("agenda-section");
 const formSection = document.getElementById("form-section");
 
@@ -15,6 +15,9 @@ const agendaMessage = document.getElementById("agenda-message");
 const agendaList = document.getElementById("agenda-list");
 
 const userSelect = document.getElementById("user-select");
+
+const form = document.getElementById("topic-form");
+const dateInput = document.getElementById("revision-date");
 
 window.onload = function () {
   populateUserDropdown();
@@ -34,7 +37,7 @@ function populateUserDropdown() {
   userSelect.addEventListener("change", handleUserSelection);
 }
 function handleUserSelection() {
-  const userId = document.getElementById("user-select").value;
+  const userId = userSelect.value;
   if (!userId) {
     // Clear any previous agenda
     agendaList.innerHTML = "";
@@ -86,9 +89,6 @@ function displayAgenda(agenda) {
 }
 
 function setupForm() {
-  const form = document.getElementById("topic-form");
-  const dateInput = document.getElementById("revision-date");
-
   // Set default date to today
   const today = new Date().toISOString().split("T")[0];
   dateInput.value = today;
@@ -99,9 +99,9 @@ function setupForm() {
 function handleFormSubmit(event) {
   event.preventDefault();
 
-  const userId = document.getElementById("user-select").value;
+  const userId = userSelect.value;
   const topicName = document.getElementById("topic-name").value.trim();
-  const startDateStr = document.getElementById("revision-date").value;
+  const startDateStr = dateInput.value;
 
   if (!topicName || !startDateStr) {
     alert("Please fill in both topic name and date.");
@@ -116,7 +116,7 @@ function handleFormSubmit(event) {
 
   // Reset form
   document.getElementById("topic-name").value = "";
-  document.getElementById("revision-date").value = new Date()
+  dateInput.value = new Date()
     .toISOString()
     .split("T")[0];
 }
