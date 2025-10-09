@@ -61,9 +61,15 @@ function displayAgenda(agenda) {
   agendaList.innerHTML = "";
 
   // Filter future dates and sort chronologically
-  const now = new Date();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set time to midnight
+
   const futureAgenda = agenda
-    .filter((item) => new Date(item.date) > now)
+    .filter((item) => {
+      const itemDate = new Date(item.date);
+      itemDate.setHours(0, 0, 0, 0); // Also set item date to midnight
+      return itemDate >= today;
+    })
     .sort((a, b) => new Date(a.date) - new Date(b.date));
 
   if (futureAgenda.length === 0) {
@@ -76,7 +82,7 @@ function displayAgenda(agenda) {
   } else {
     // agendaMessage.style.display = "none";
     // agendaList.style.display = "block";
-
+    console.log(futureAgenda);
     agendaMessage.hidden = true;
     agendaList.hidden = false;
 
@@ -116,9 +122,7 @@ function handleFormSubmit(event) {
 
   // Reset form
   document.getElementById("topic-name").value = "";
-  dateInput.value = new Date()
-    .toISOString()
-    .split("T")[0];
+  dateInput.value = new Date().toISOString().split("T")[0];
 }
 
 function calculateRevisions(startDate, topic) {
