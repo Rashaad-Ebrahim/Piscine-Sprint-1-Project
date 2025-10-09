@@ -128,5 +128,5 @@ function calculateRevisions(startDate, topic) {
 
 function formatDate(dateStr) {
   const date = new Date(dateStr);
-  return date.toLocaleDateString(); // Format according to user's locale
+  return date.toLocaleDateString(); // Format according to user's local time
 }
