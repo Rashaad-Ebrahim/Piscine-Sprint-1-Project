@@ -7,18 +7,22 @@
 import { getUserIds } from "./common.mjs";
 import { getData, addData } from "./storage.mjs";
 
-// Global variables
+// DOM elements
 const agendaSection = document.getElementById("agenda-section");
 const formSection = document.getElementById("form-section");
+
+const agendaMessage = document.getElementById("agenda-message");
+const agendaList = document.getElementById("agenda-list");
+
+const userSelect = document.getElementById("user-select");
 
 window.onload = function () {
   populateUserDropdown();
   setupForm();
-  document.getElementById("agenda-message").hidden = true; // This will hide "Agenda not found when page loads and no user is selected"
+  agendaMessage.hidden = true; // This will hide "Agenda not found when page loads and no user is selected"
 };
 
 function populateUserDropdown() {
-  const userSelect = document.getElementById("user-select");
   const users = getUserIds();
   users.forEach((userId) => {
     const option = document.createElement("option");
@@ -32,11 +36,15 @@ function populateUserDropdown() {
 function handleUserSelection() {
   const userId = document.getElementById("user-select").value;
   if (!userId) {
+    // Clear any previous agenda
+    agendaList.innerHTML = "";
+
     // hide agenda and form sections
     agendaSection.hidden = true;
     formSection.hidden = true;
     return;
   }
+
   // Display agenda and form sections
   agendaSection.hidden = false;
   formSection.hidden = false;
@@ -46,9 +54,6 @@ function handleUserSelection() {
 }
 
 function displayAgenda(agenda) {
-  const agendaMessage = document.getElementById("agenda-message");
-  const agendaList = document.getElementById("agenda-list");
-
   // Clear previous content
   agendaList.innerHTML = "";
 
