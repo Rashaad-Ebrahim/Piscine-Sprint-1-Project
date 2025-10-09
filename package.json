@@ -1,0 +1,19 @@
+{
+  "name": "piscine-sprint-1-project",
+  "version": "1.0.0",
+  "description": "Piscine Sprint 1 project",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test calculateRevisions.test.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rashaad-Ebrahim/Piscine-Sprint-1-Project.git"
+  },
+  "author": "R & R Developments",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rashaad-Ebrahim/Piscine-Sprint-1-Project/issues"
+  },
+  "homepage": "https://github.com/Rashaad-Ebrahim/Piscine-Sprint-1-Project#readme"
+}
