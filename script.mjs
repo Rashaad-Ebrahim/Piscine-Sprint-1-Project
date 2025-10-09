@@ -7,6 +7,10 @@
 import { getUserIds } from "./common.mjs";
 import { getData, addData } from "./storage.mjs";
 
+// Global variables
+const agendaSection = document.getElementById("agenda-section");
+const formSection = document.getElementById("form-section");
+
 window.onload = function () {
   populateUserDropdown();
   setupForm();
@@ -27,14 +31,21 @@ function populateUserDropdown() {
 }
 function handleUserSelection() {
   const userId = document.getElementById("user-select").value;
-  if (!userId) return;
+  if (!userId) {
+    // hide agenda and form sections
+    agendaSection.hidden = true;
+    formSection.hidden = true;
+    return;
+  }
+  // Display agenda and form sections
+  agendaSection.hidden = false;
+  formSection.hidden = false;
 
   const agenda = getData(userId) || [];
   displayAgenda(agenda);
 }
 
 function displayAgenda(agenda) {
-  const agendaSection = document.getElementById("agenda-section");
   const agendaMessage = document.getElementById("agenda-message");
   const agendaList = document.getElementById("agenda-list");
 
@@ -84,11 +95,6 @@ function handleFormSubmit(event) {
   event.preventDefault();
 
   const userId = document.getElementById("user-select").value;
-  if (!userId) {
-    alert("Please select a user first.");
-    return;
-  }
-
   const topicName = document.getElementById("topic-name").value.trim();
   const startDateStr = document.getElementById("revision-date").value;
 
